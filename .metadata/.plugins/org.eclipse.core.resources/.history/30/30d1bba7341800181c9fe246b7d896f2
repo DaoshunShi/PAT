@@ -1,0 +1,186 @@
+//题目描述
+//本题要求编写程序，计算2个有理数的和、差、积、商。
+//
+//输入描述:
+//输入在一行中按照“a1/b1 a2/b2”的格式给出两个分数形式的有理数，其中分子和分母全是整型范围内的整数，负号只可能出现在分子前，分
+//
+//母不为0。
+//
+//
+//输出描述:
+//分别在4行中按照“有理数1 运算符 有理数2 = 结果”的格式顺序输出2个有理数的和、差、积、商。注意输出的每个有理数必须是该有理数的
+//
+//最简形式“k a/b”，其中k是整数部分，a/b是最简分数部分；若为负数，则须加括号；若除法分母为0，则输出“Inf”。题目保证正确的输出中
+//
+//没有超过整型范围的整数。
+//
+//输入例子:
+//5/3 0/6
+//
+//输出例子:
+//1 2/3 + 0 = 1 2/3
+//
+//1 2/3 - 0 = 1 2/3
+//
+//1 2/3 * 0 = 0
+//
+//1 2/3 / 0 = Inf
+
+
+package basic.basic_1024;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main {
+
+	public static void main(String[] args) throws IOException {
+		BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+		String str1 = bf.readLine();
+		String str2 = bf.readLine();
+		
+	}
+
+	
+	public static class Fraction {
+		int nume;	//分子
+		int deno;	//分母
+		
+		public int getNume() {
+			return nume;
+		}
+		public void setNume(int nume) {
+			this.nume = nume;
+		}
+		public int getDeno() {
+			return deno;
+		}
+		public void setDeno(int deno) {
+			this.deno = deno;
+		}
+		public Fraction(int nume, int deno) {
+			super();
+			this.nume = nume;
+			this.deno = deno;
+		}
+		
+		//分数加法
+		public Fraction getAdd(Fraction f) {
+			int a = this.nume * f.deno + f.nume * this.deno;
+			int b = this.deno * f.deno;
+			
+			Fraction result = new Fraction(a, b);
+			
+			return result;
+		}
+		
+		//分数减法
+		public Fraction getSubstraction(Fraction f) {
+			int a = this.nume * f.deno - f.nume * this.deno;
+			int b = this.deno * f.deno;
+			
+			Fraction result = new Fraction(a, b);
+			
+			return result;
+		}
+		
+		//分数乘法
+		public Fraction getMultiply(Fraction f) {
+			int a = this.nume * f.nume;
+			int b = this.deno * f.deno;
+			
+			Fraction result = new Fraction(a, b);
+			
+			return result;
+		}
+		
+		//分数除法
+		public Fraction getDivide(Fraction f) {
+			int a = this.nume * f.deno;
+			int b = this.deno * f.nume;
+			
+			Fraction result = new Fraction(a, b);
+			
+			return result;
+		}
+		
+//		public Fraction get
+//		public int[] getFraction () {
+//			int[] result = new int[2];
+//			result[0] = nume;
+//			result[1] = deno;
+//			return result;
+//		}
+//		public int[] getSimplestInt() {
+//			//约分分数至最简 形式
+//			int temp = 2;
+//			while (temp <= deno) {
+//				if (nume % temp == 0 && deno % temp == 0) {
+//					nume = nume / temp;
+//					deno = deno / temp;
+//				}
+//				else {
+//					temp++;
+//				}
+//			}
+//			int k = nume /deno;
+//			int a = nume % deno;
+//			if (a > 0) {
+//				int [] result = new int[3];
+//				result[0] = k;
+//				result[1] = a;
+//				result[2] = deno; 
+//				return result;
+//			}
+//			else {
+//				int[] result = new int[1];
+//				result[0] = k;
+//				return result;
+//			}
+//			
+//		}
+		public Fraction getSimlest() {
+			//约分分数至最简 形式
+			int temp = 2;
+			while (temp <= deno) {
+				if (nume % temp == 0 && deno % temp == 0) {
+					nume = nume / temp;
+					deno = deno / temp;
+				}
+				else {
+					temp++;
+				}
+			}
+			
+			Fraction f = new Fraction(this.nume, this.deno) ;
+			return f;
+
+		}
+		public String getSimplestStr() {
+			//约分分数至最简 形式
+			int temp = 2;
+			while (temp <= deno) {
+				if (nume % temp == 0 && deno % temp == 0) {
+					nume = nume / temp;
+					deno = deno / temp;
+				}
+				else {
+					temp++;
+				}
+			}
+			
+			String result = "";
+			int k = nume / deno;
+			int a = nume % deno;
+			
+			result = k + "";
+			if (a > 0) {
+				result = result + " " + a + "/" + deno;
+			}
+			return result;
+		}
+
+		
+	}
+}

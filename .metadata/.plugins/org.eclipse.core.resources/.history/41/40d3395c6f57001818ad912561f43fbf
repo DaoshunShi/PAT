@@ -1,0 +1,22 @@
+package jdk.lambda;
+
+public class Calculate {
+
+	public static void main(String[] args) {
+		Calculate calculate = new Calculate();
+		
+		//生命
+	}
+	
+	interface MathOperation{
+		int operation(int a, int b);
+	}
+
+	interface GreetingService {
+		void sayMessage(String message);
+	}
+	
+	private int operate (int a, int b, Calculate calculate) {
+		return calculate.operate(a, b);
+	}
+}

@@ -1,0 +1,143 @@
+package test.temp;
+
+public class Test {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+	
+	public String login(String userName,String userPw,int userType)
+	{
+		try
+		{
+			Thread.sleep(700);
+		} catch (InterruptedException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String result="no";
+		if(userType==0)//系统管理员登陆
+		{
+			String sql="select * from t_admin where userName=? and userPw=?";
+			Object[] params={userName,userPw};
+			DB mydb=new DB();
+			mydb.doPstm(sql, params);
+			try 
+			{
+				ResultSet rs=mydb.getRs();
+				boolean mark=(rs==null||!rs.next()?false:true);
+				if(mark==false)
+				{
+					 result="no";
+				}
+				else
+				{
+					 result="yes";
+					 TAdmin admin=new TAdmin();
+					 admin.setUserId(rs.getInt("userId"));
+					 admin.setUserName(rs.getString("userName"));
+					 admin.setUserPw(rs.getString("userPw"));
+					 WebContext ctx = WebContextFactory.get(); 
+					 HttpSession session=ctx.getSession(); 
+					 session.setAttribute("userType", 0);
+		             session.setAttribute("admin", admin);
+				}
+				rs.close();
+			} 
+			catch (SQLException e)
+			{
+				System.out.println("登录失败！");
+				e.printStackTrace();
+			}
+			finally
+			{
+				mydb.closed();
+			}
+			
+		}
+		return result;
+	}
+public String addKehu() throws Exception {
+		kehu = new Kehu();
+		kehu.setId(id);
+		kehu.setName(name);
+		kehu.setAge(age);
+		kehu.setSex(sex);
+		kehu.setShenfenzheng(shenfenzheng);
+		kehu.setPhone(phone);
+		kehu.setQq(qq);
+		kehu.setBeizhu(beizhu);
+		kehu.setDel(del);
+		kehuDao.save(kehu);
+		this.setMessage("操作成功");
+		this.setPath("listKehu.action");
+		return "succeed";
+	}
+
+	public String listKehu() throws Exception {
+		List KehuList = kehuDao.findAll();
+		Map request = (Map) ServletActionContext.getContext().get("request");
+		request.put("KehuList", KehuList);
+
+		Map<String, Integer> maptype = new HashMap<String, Integer>();
+		Map<String, Integer> maptype2 = new HashMap<String, Integer>();
+		Integer allnianling = 0;
+		for (Object obj : KehuList) {
+			Kehu kehu = (Kehu) obj;
+			allnianling += Integer.parseInt(kehu.getAge());
+			if (null == maptype.get(kehu.getSex())) {
+				maptype.put(kehu.getSex(), 1);
+			} else {
+				maptype.put(kehu.getSex(), maptype.get(kehu.getSex()) + 1);
+			}
+		}
+		request.put("avgnianling", Math.floor(allnianling / KehuList.size()));
+		request.put("length", KehuList.size());
+		request.put("maptype", maptype);
+
+		return ActionSupport.SUCCESS;
+	}
+
+	public String toEditKehu() throws Exception {
+		Kehu entity = kehuDao.findById(id);
+		Map request = (Map) ServletActionContext.getContext().get("request");
+		request.put("Kehu", entity);
+		return ActionSupport.SUCCESS;
+	}
+
+	public String editKehu() throws Exception {
+		kehu = kehuDao.findById(id);
+		kehu.setId(id);
+		kehu.setName(name);
+		kehu.setAge(age);
+		kehu.setSex(sex);
+		kehu.setShenfenzheng(shenfenzheng);
+		kehu.setPhone(phone);
+		kehu.setQq(qq);
+		kehu.setBeizhu(beizhu);
+		kehu.setDel(del);
+		kehuDao.merge(kehu);
+		this.setMessage("操作成功");
+		this.setPath("listKehu.action");
+		return "succeed";
+	}
+
+	public String infoKehu() throws Exception {
+		Kehu entity = kehuDao.findById(id);
+		Map request = (Map) ServletActionContext.getContext().get("request");
+		request.put("Kehu", entity);
+		return ActionSupport.SUCCESS;
+	}
+
+	public String deleteKehu() throws Exception {
+		Kehu entity = kehuDao.findById(id);
+		kehuDao.delete(entity);
+		this.setMessage("操作成功");
+		this.setPath("listKehu.action");
+		return "succeed";
+	}
+
+
+}

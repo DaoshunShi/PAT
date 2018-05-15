@@ -1,0 +1,16 @@
+package test.temp;
+
+public class Test1 {
+
+	public static void main(String[] args) {
+		
+
+	}
+	
+	class ac {
+		private int id;
+		private String content;
+		
+	}
+
+}

@@ -1,0 +1,79 @@
+package jdk.lambda;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+
+/**
+ * 用lambda拆分活动内容
+ * @author DossS
+ *
+ */
+public class Test1 {
+
+	public static void main(String[] args) {
+		
+		List<AC> list = init();
+//		list.stream().forEach(ac -> System.out.println(ac.getId() + " " + ac.getContent()));
+		
+//		List<String> content = Arrays.asList(list.get(3).getContent().split(","));
+//		String temp = content.stream().collect(Collectors.joining("."));
+//		System.out.println(temp);
+
+//		Predicate<String> startsWith01 = (n) -> n.startsWith("01");
+//		content.stream().filter(startsWith01).forEach(c -> System.out.println(c));
+		
+//		List<AC> result = list.stream().map(ac -> new AC(ac.getId(), ac.getContent() + "..")).collect(Collectors.toList());
+//		result.stream().forEach(ac -> System.out.println(ac.getId() + " " + ac.getContent()));
+		
+		Predicate<String> startsWith01 = (n) -> n.startsWith("01");
+		List<AC> result01 = list.stream().map(ac -> new AC(ac.getId(), Arrays.asList(ac.getContent().split(",")).stream().filter(startsWith01).collect(Collectors.joining(".")))).filter(ac -> ac.getContent().length() > 0).collect(Collectors.toList());
+		result01.stream().forEach(ac -> System.out.println(ac.getId() + " " + ac.getContent()));
+		Predicate<String> startsWith02 = (n) -> n.startsWith("02");
+		List<AC> result02 = list.stream().map(ac -> new AC(ac.getId(), Arrays.asList(ac.getContent().split(",")).stream().filter(startsWith02).collect(Collectors.joining(".")))).filter(ac -> ac.getContent().length() > 0).collect(Collectors.toList());
+		result02.stream().forEach(ac -> System.out.println(ac.getId() + " " + ac.getContent()));
+		
+//		List<String> listStr = Arrays.asList("0101,0102", "0201,0202", "0101,0202", "0101,0102,0201,0202", "0101,0102,0103,0104,0105", "0201,0205");
+//		listStr.stream().map(ls -> ls + "..").forEach(System.out::println);
+		
+		
+	}
+	
+	public static List<AC> init() {
+//		List<AC> result = new ArrayList<AC>();
+		AC ac1 = new AC(1, "0101,0102");
+		AC ac2 = new AC(2, "0201,0202");
+		AC ac3 = new AC(3, "0101,0202");
+		AC ac4 = new AC(4, "0101,0102,0201,0202");
+		AC ac5 = new AC(5, "0101,0102,0103,0104,0105");
+		AC ac6 = new AC(6, "0201,0205");
+		List<AC> result = Arrays.asList(ac1, ac2, ac3, ac4, ac5, ac6);
+		return result;
+	}
+
+}
+
+class AC {
+	private int id;
+	private String content;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public AC(int id, String content) {
+		super();
+		this.id = id;
+		this.content = content;
+	}	
+	
+}

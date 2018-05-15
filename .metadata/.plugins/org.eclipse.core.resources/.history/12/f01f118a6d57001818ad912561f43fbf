@@ -1,0 +1,10 @@
+package jdk.lambda;
+
+public class Basic {
+
+	public static void main(String[] args) {
+		
+		String[] atp = {"Rafael Nadal", "Novak Djokovic", "Stanislas Wawrinka", "David Ferrer","Roger Federer", "Andy Murray","Tomas Berdych", "Juan Martin Del Potro"};
+	}
+
+}
